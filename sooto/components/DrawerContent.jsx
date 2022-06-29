@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import { Box, Heading, Text, VStack } from "native-base";
+import { Box, Heading, Text, VStack, useColorMode, Button } from "native-base";
 import {
   DrawerContentScrollView,
   DrawerItemList,
@@ -10,23 +10,33 @@ import { AddIcon } from "native-base";
 import { Switch } from "native-base";
 
 const DrawerContent = (props) => {
+  const { toggleColorMode } = useColorMode();
   return (
-    <DrawerContentScrollView {...props}>
-      <Box flex={1} h="100%">
-        <Heading pl={4} py={5} color="red.500">
+    <Box
+      flex={1}
+      h="100%"
+      _dark={{
+        bg: "coolGray.800",
+      }}
+      _light={{
+        bg: "warmGray.50",
+      }}
+    >
+      <DrawerContentScrollView {...props}>
+        <Heading size="xl" pl={4} py={5} color="red.500" fontWeight="bold">
           SOOTO
         </Heading>
         <VStack flex={1} h="100%" justifyContent="space-between">
           <DrawerItemList {...props} />
-          <VStack pl={4} mt={10} space={2}>
+          <VStack alignItems="flex-start" pl={4} mt={10} space={2}>
             <Text color="gray.500" fontWeight="bold">
               Dark Mode
             </Text>
-            <Switch colorScheme="red" />
+            <Switch size="md" colorScheme="red" isDisabled />
           </VStack>
         </VStack>
-      </Box>
-    </DrawerContentScrollView>
+      </DrawerContentScrollView>
+    </Box>
   );
 };
 
