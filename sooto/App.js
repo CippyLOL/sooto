@@ -14,22 +14,26 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 // DrawerContent
-import DrawerContent from "./components/DrawerContent";
+import DrawerContent from "./components/Navigation/Drawer/DrawerContent";
 // Screens
 import ProjectsScreen from "./screens/ProjectsScreen";
 import KanbanScreen from "./screens/KanbanScreen";
 import CalendarScreen from "./screens/CalendarScreen";
 import CountdownScreen from "./screens/CountdownScreen";
-import SettingsScreen from "./screens/SettingsScreen";
-
+import AboutScreen from "./screens/AboutScreen";
+// Nav
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
+// Theme
+import { CustomeTheme } from "./data/theme/theme";
+
+import { LogBox } from "react-native";
 
 const ProjectStack = () => {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerTransparent: true,
+        headerTransparent: false,
         headerTintColor: "red",
       }}
     >
@@ -48,39 +52,23 @@ const ProjectStack = () => {
 };
 
 export default function App() {
+  LogBox.ignoreAllLogs();
   const scheme = useColorScheme();
-  const theme = extendTheme({
-    components: {
-      Heading: {
-        baseStyle: (props) => {
-          return {
-            color: themeTools.mode("red.300", "blue.300")(props),
-          };
-        },
-      },
-    },
-  });
+
   const navTheme = {
     ...DefaultTheme,
     colors: {
       ...DefaultTheme.colors,
-      // primary: "rgb(255, 45, 85)",
     },
   };
+
   return (
-    <NativeBaseProvider theme={theme}>
+    <NativeBaseProvider>
       <NavigationContainer theme={scheme === "dark" ? DarkTheme : navTheme}>
         <Drawer.Navigator
           drawerContent={(props) => <DrawerContent {...props} />}
           screenOptions={{
-            drawerStyle: {
-              // backgroundColor: "grey",
-              // width: "100%",
-            },
             drawerActiveTintColor: "red",
-            // drawerInactiveTintColor: "yellow",
-            // headerShown: true,
-            // headerTransparent: true,
             headerTintColor: "red",
           }}
         >
@@ -97,18 +85,8 @@ export default function App() {
                   color={color}
                 />
               ),
-              // headerShown: false,
             }}
           />
-          {/* <Drawer.Screen
-            name="Kanban"
-            component={KanbanScreen}
-            options={{
-              drawerItemStyle: {
-                display: "none",
-              },
-            }}
-          /> */}
           <Drawer.Screen
             name="Calendar"
             component={CalendarScreen}
@@ -134,12 +112,16 @@ export default function App() {
             }}
           />
           <Drawer.Screen
-            name="Settings"
-            component={SettingsScreen}
+            name="About"
+            component={AboutScreen}
             options={{
-              title: "Settings",
+              title: "About SOOTO",
               drawerIcon: ({ color }) => (
-                <Ionicons name="settings-outline" size={24} color={color} />
+                <Ionicons
+                  name="ios-information-circle-outline"
+                  size={24}
+                  color={color}
+                />
               ),
             }}
           />
